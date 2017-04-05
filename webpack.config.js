@@ -35,8 +35,11 @@ var webpackConfig = {
           'angular2-router-loader'
         ]
       },
-      { test: /\.css$/, loaders: ['to-string-loader', 'css-loader'] },
-      { test: /\.html$/, loader: 'raw-loader' }
+      //{ test: /\.css$/, loaders: ['to-string-loader', 'css-loader'] },
+      { test: /\.html$/, loader: 'raw-loader' },
+      { test: /\.(jpe?g|png|gif|svg)$/i,  loader: 'file-loader?name=/images/[name].[hash].[ext]'},
+      { test: /\.(ttf|woff|woff2|eot)$/i, loader: 'file-loader?name=/fonts/[name].[hash].[ext]'},
+      { test: /\.css$/, loader: 'file-loader?name=/css/[name].[hash].[ext]' },
     ]
   }
 
