@@ -1,87 +1,125 @@
-var webpack = require('webpack');
-var path = require('path');
-var webpackMerge = require('webpack-merge');
+const path = require('path');
+const ProgressPlugin = require('webpack/lib/ProgressPlugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const { AotPlugin } = require('@ngtools/webpack');
 
-// Webpack Config
-var webpackConfig = {
-  entry: {
-    'main': './src/main.browser.ts',
+
+module.exports = {
+  "devtool": "source-map",
+  "resolve": {
+    "extensions": [
+      ".ts",
+      ".js"
+    ],
+    "modules": [
+      "./node_modules"
+    ]
   },
-
-  output: {
-    publicPath: '',
-    path: path.resolve(__dirname, './dist'),
+  "resolveLoader": {
+    "modules": [
+      "./node_modules"
+    ]
   },
-
-  plugins: [
-    new webpack.ContextReplacementPlugin(
-      // The (\\|\/) piece accounts for path separators in *nix and Windows
-      /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
-      path.resolve(__dirname, './src'),
+  "entry": {
+    "main": [
+      "./src/main.ts"
+    ],
+    "polyfills": [
+      "./src/polyfills.ts"
+    ],
+    "styles": [
+      "./src/styles.css"
+    ]
+  },
+  "output": {
+    "path": path.join(process.cwd(), "dist"),
+    "filename": "[name].bundle.js",
+    "chunkFilename": "[id].chunk.js"
+  },
+  "module": {
+    "rules": [
       {
-        // your Angular Async Route paths relative to this root directory
-      }
-    ),
-  ],
-
-  module: {
-    loaders: [
-      // .ts files for TypeScript
-      {
-        test: /\.ts$/,
-        loaders: [
-          'awesome-typescript-loader',
-          'angular2-template-loader',
-          'angular2-router-loader'
+        "enforce": "pre",
+        "test": /\.js$/,
+        "loader": "source-map-loader",
+        "exclude": [
+          /\/node_modules\//
         ]
       },
-      //{ test: /\.css$/, loaders: ['to-string-loader', 'css-loader'] },
-      { test: /\.html$/, loader: 'raw-loader' },
-      { test: /\.(jpe?g|png|gif|svg)$/i,  loader: 'file-loader?name=/images/[name].[hash].[ext]'},
-      { test: /\.(ttf|woff|woff2|eot)$/i, loader: 'file-loader?name=/fonts/[name].[hash].[ext]'},
-      { test: /\.css$/, loader: 'file-loader?name=/css/[name].[hash].[ext]' },
+      {
+        "test": /\.json$/,
+        "loader": "json-loader"
+      },
+      {
+        "test": /\.html$/,
+        "loader": "raw-loader"
+      },
+      {
+        "test": /\.(eot|svg)$/,
+        "loader": "file-loader?name=[name].[hash:20].[ext]"
+      },
+      {
+        "test": /\.(jpg|png|gif|otf|ttf|woff|woff2|cur|ani)$/,
+        "loader": "url-loader?name=[name].[hash:20].[ext]&limit=10000"
+      },
+      {
+        "exclude": [path.join(process.cwd(), "src/styles.css")],
+        "test": /\.css$/,
+        "loaders": [
+          "exports-loader?module.exports.toString()",
+          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}"
+        ]
+      },
+      {
+        "include": [path.join(process.cwd(), "src/styles.css")],
+        "test": /\.css$/,
+        "loaders": ExtractTextPlugin.extract({fallback: "style-loader", use: "css-loader"})
+      },
+      {
+        "test": /\.ts$/,
+        "loader": "@ngtools/webpack"
+      }
     ]
+  },
+  "plugins": [
+    new ProgressPlugin(),
+    new HtmlWebpackPlugin({
+      "template": "./src/index.html",
+      "filename": "./index.html",
+      "hash": false,
+      "inject": true,
+      "compile": true,
+      "favicon": './src/favicon.ico',
+      "minify": false,
+      "cache": true,
+      "showErrors": true,
+      "title": "Webpack App",
+      "xhtml": true,
+    }),
+    new ExtractTextPlugin({
+      "filename": "[name].bundle.css",
+      "disable": false
+    }),
+    new AotPlugin({
+      "mainPath": "main.ts",
+      "hostReplacementPaths": {
+        "environments/environment.ts": "environments/environment.ts"
+      },
+      "exclude": [],
+      "tsConfigPath": "src/tsconfig.app.json",
+      "skipCodeGeneration": true
+    })
+  ],
+  "node": {
+    "fs": "empty",
+    "global": true,
+    "crypto": "empty",
+    "tls": "empty",
+    "net": "empty",
+    "process": true,
+    "module": false,
+    "clearImmediate": false,
+    "setImmediate": false
   }
-
 };
-
-
-// Our Webpack Defaults
-var defaultConfig = {
-  devtool: 'source-map',
-
-  output: {
-    filename: '[name].bundle.js',
-    sourceMapFilename: '[name].map',
-    chunkFilename: '[id].chunk.js'
-  },
-
-  resolve: {
-    extensions: [ '.ts', '.js' ],
-    modules: [ path.resolve(__dirname, 'node_modules') ]
-  },
-
-  devServer: {
-    historyApiFallback: true,
-    watchOptions: { aggregateTimeout: 300, poll: 1000 },
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-    }
-  },
-
-  node: {
-    global: true,
-    crypto: 'empty',
-    __dirname: true,
-    __filename: true,
-    process: true,
-    Buffer: false,
-    clearImmediate: false,
-    setImmediate: false
-  }
-};
-
-
-module.exports = webpackMerge(defaultConfig, webpackConfig);
