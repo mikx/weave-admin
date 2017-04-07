@@ -11,7 +11,7 @@ import {AboutService} from './about.service';
 
 export class AboutComponent {
   
-  public requestDetails: string = '';
+  public requestDetails: string = 'xxx';
   
   constructor(public service: AboutService) { }
   ngOnInit() {
