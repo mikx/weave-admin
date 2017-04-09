@@ -18,7 +18,7 @@ export class LoginService {
   
   private makeRequest(email: string, pass: string): Observable<string> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
     let data = { name: email, token: pass }
     let url = `http://dev.async.weave.io/login`;
     return this.http.post(url, JSON.stringify(data), options).map((res) => res.json());

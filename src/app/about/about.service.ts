@@ -13,15 +13,15 @@ export class AboutService {
   
   constructor(private http: Http) {}
 
-  getRequest(): Observable<string> {
-    return this.makeRequest(`info/request`);
+  getInfo(): Observable<any> {
+    return this.makeRequest("user/info");
   }
 
-  private makeRequest(path: string): Observable<string> {
+  private makeRequest(path: string): Observable<any> {
     let headers = new Headers();
     let options = new RequestOptions({ headers: headers, withCredentials: true });
     let url = `http://dev.async.weave.io/${path}`;
-    return this.http.get(url, options).map((res) => res.text());
+    return this.http.get(url, options).map((res) => res.json());
   }
   
 }

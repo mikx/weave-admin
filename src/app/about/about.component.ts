@@ -11,11 +11,11 @@ import {AboutService} from './about.service';
 
 export class AboutComponent {
   
-  public requestDetails: string = 'xxx';
+  public info: any = {};
   
   constructor(public service: AboutService) { }
   ngOnInit() {
-    this.service.getRequest().subscribe( (data: string) => {this.requestDetails = data;} )
+    this.service.getInfo().subscribe( (data: any) => {this.info = data;} )
   }
 
   
