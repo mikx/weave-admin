@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import CustomValidators from '../forms/CustomValidators';
-import { LoginService } from '../services/login.service';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   showInvalidLoginMessage: boolean = false;
   
-  constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService) {}
+  constructor(private formBuilder: FormBuilder, private router: Router, private api: ApiService) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -28,7 +28,8 @@ export class LoginComponent implements OnInit {
   submitForm(): void {
     if (this.loginForm.valid) {
       let value = this.loginForm.value;
-      this.loginService.login(value.email, value.password).then((data) => this.loginResponse(data));
+      let body  = {name: value.email, token: value.password};
+      this.api.post('login', body).then((data) => this.loginResponse(data));
     } else {
       // ???
     }

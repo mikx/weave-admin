@@ -12,9 +12,8 @@ import { rootRouterConfig } from './app.routes';
 import { AppComponent } from './app.component';
 
 import { AboutService } from './about/about.service';
-import { AuthService } from './services/auth.service';
 import { ExtendedHttpService } from './services/extended-http.service';
-import { LoginService } from './services/login.service';
+import { ApiService } from './services/api.service';
 import { GithubService } from './github/shared/github.service';
 
 import { AboutComponent } from './about/about.component';
@@ -23,7 +22,7 @@ import { HomeComponent } from './home/home.component';
 import { RepoBrowserComponent } from './github/repo-browser/repo-browser.component';
 import { RepoListComponent } from './github/repo-list/repo-list.component';
 import { RepoDetailComponent } from './github/repo-detail/repo-detail.component';
-import { ContactComponent } from './contact/contact.component';
+import { OrgComponent } from './org/org.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +33,7 @@ import { ContactComponent } from './contact/contact.component';
     RepoListComponent,
     RepoDetailComponent,
     HomeComponent,
-    ContactComponent
+    OrgComponent
   ],
   imports: [
     BrowserModule,
@@ -46,8 +45,7 @@ import { ContactComponent } from './contact/contact.component';
   ],
   providers: [
     AboutService,
-    AuthService,
-    LoginService,
+    ApiService,
     GithubService,
     { provide: Http, useClass: ExtendedHttpService }
   ],

@@ -1,4 +1,6 @@
-import {Component} from '@angular/core';
+/*eslint-env es_modules */
+
+import {Component, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
 import {AboutService} from './about.service';
 
@@ -6,16 +8,21 @@ import {AboutService} from './about.service';
 @Component({
   selector: 'about',
   styleUrls: ['./about.component.css'],
-  templateUrl: './about.component.html'
+  templateUrl: './about.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class AboutComponent {
   
-  public info: any = {};
+  public info: any = { user: {}, orgs: [] };
   
-  constructor(public service: AboutService) { }
+  constructor(private changeDetector: ChangeDetectorRef, public service: AboutService) { }
+  
   ngOnInit() {
-    this.service.getInfo().subscribe( (data: any) => {this.info = data;} )
+    this.service.getInfo().subscribe( (data: any) => {
+      this.info = data;
+      this.changeDetector.markForCheck();
+    })
   }
 
   

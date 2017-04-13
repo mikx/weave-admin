@@ -1,4 +1,4 @@
-/*globals private */
+/*eslint-env es_modules */
 
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -14,7 +14,7 @@ export class AboutService {
   constructor(private http: Http) {}
 
   getInfo(): Observable<any> {
-    return this.makeRequest("user/info");
+    return this.makeRequest("info/user");
   }
 
   private makeRequest(path: string): Observable<any> {

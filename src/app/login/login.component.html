@@ -1,8 +1,5 @@
 <h2>Login to DRIVN</h2>
 
-
-<div class="container">
-
 <form (ngSubmit)="submitForm()" [formGroup]="loginForm" novalidate>
 
   <ngb-alert *ngIf="showInvalidLoginMessage" (close)="showInvalidLoginMessage = false" type="danger">Invalid email or password!</ngb-alert>
@@ -11,16 +8,14 @@
     <label>Email:
       <input type="email" formControlName="email" class="sd-form-control" placeholder="Enter your email.">
     </label>
-    <label>Password:
+    <label class="float-right">Password:
       <input type="password" formControlName="password" class="sd-form-control" placeholder="Enter password.">
     </label>
   </div>
 
   <div class="form-content">
-    <button type="submit" class="btn btn-success" [disabled]="!loginForm.valid">Submit</button>
+    <button type="submit" class="btn btn-success float-right" [disabled]="!loginForm.valid">Submit</button>
   </div>
 
 </form>
-
-</div>
 

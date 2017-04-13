@@ -4,14 +4,14 @@ import { Injectable } from '@angular/core';
 import { Request, XHRBackend, RequestOptions, Response, Http, RequestOptionsArgs, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
+
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class ExtendedHttpService extends Http {
 
-  constructor(backend: XHRBackend, defaultOptions: RequestOptions, private router: Router, private authService: AuthService) {
+  constructor(backend: XHRBackend, defaultOptions: RequestOptions, private router: Router) {
     super(backend, defaultOptions);
   }
 
