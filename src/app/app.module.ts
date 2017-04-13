@@ -1,5 +1,6 @@
 /*eslint-env es_modules */
-import { NgModule } from '@angular/core'
+
+import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
@@ -11,7 +12,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { rootRouterConfig } from './app.routes';
 import { AppComponent } from './app.component';
 
-import { AboutService } from './about/about.service';
 import { ExtendedHttpService } from './services/extended-http.service';
 import { ApiService } from './services/api.service';
 import { GithubService } from './github/shared/github.service';
@@ -44,7 +44,6 @@ import { OrgComponent } from './org/org.component';
     NgbModule.forRoot()
   ],
   providers: [
-    AboutService,
     ApiService,
     GithubService,
     { provide: Http, useClass: ExtendedHttpService }

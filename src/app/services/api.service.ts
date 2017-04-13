@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Http, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/map';
@@ -20,9 +20,8 @@ export class ApiService {
   }
 
   
-  get(path: string): Observable<any> {
-      let headers = new Headers();
-      let options = new RequestOptions({ headers: headers, withCredentials: true });
+  get(path: string, args: RequestOptionsArgs = {}): Observable<any> {
+      let options = new RequestOptions(Object.assign({withCredentials: true }, args));
       let url = `${this.base}/${path}`;
       return this.http.get(url, options).map((res) => res.json())
   }

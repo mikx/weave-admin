@@ -13,15 +13,17 @@ import 'rxjs/add/operator/distinctUntilChanged';
   styles: [`.form-control { width: 300px; }`]
 })
 
+
 export class OrgComponent {
-  
+
   constructor(private api: ApiService) {}
   
   public model: any;
 
-  search = (text$: Observable<string>) =>
+  public search = (text$: Observable<string>) =>
     text$
       .debounceTime(200)
       .distinctUntilChanged()
-      .flatMap(term => term.length < 2 ? Observable.of([]) : this.api.get(`info/org/${term}`));
+      .flatMap(term => term.length < 2 ? Observable.of([]) : this.api.get('info/org', {search: {query: term}})
+      .map(orgs => orgs.map((org: any) => org.name)));
 }
