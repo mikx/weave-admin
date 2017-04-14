@@ -48,5 +48,6 @@
   ],
   "repository": {},
   "bugs": {},
-  "homepage": "https://github.com/mikx/weave-admin#readme"
+  "homepage": "https://github.com/mikx/weave-admin#readme",
+  "engines" : { "node" : ">=6.10.2" }
 }
