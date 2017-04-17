@@ -8,8 +8,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { AotPlugin } = require('@ngtools/webpack');
 
 
-module.exports = {
+module.exports = function(env = {}) { return {
+  
   "devtool": "source-map",
+  
   "resolve": {
     "extensions": [
       ".ts",
@@ -19,11 +21,14 @@ module.exports = {
       "./node_modules"
     ]
   },
+  
   "resolveLoader": {
     "modules": [
+      "./src",
       "./node_modules"
     ]
   },
+  
   "entry": {
     "main": [
       "./src/main.ts"
@@ -35,11 +40,13 @@ module.exports = {
       "./src/styles.css"
     ]
   },
+  
   "output": {
     "path": path.join(process.cwd(), "dist"),
     "filename": "[name].bundle.js",
     "chunkFilename": "[id].chunk.js"
   },
+  
   "module": {
     "rules": [
       {
@@ -85,6 +92,7 @@ module.exports = {
       }
     ]
   },
+  
   "plugins": [
     new ProgressPlugin(),
     new HtmlWebpackPlugin({
@@ -107,14 +115,15 @@ module.exports = {
     new AotPlugin({
       "mainPath": "main.ts",
       "hostReplacementPaths": {
-        "environments/environment.ts": ["environments/", process.env.NODE_ENV || "development",".ts"].join(""),
-        "src/environments/environment.ts": ["src/environments/", process.env.NODE_ENV || "development",".ts"].join("")
+        "environments/environment.ts": ["environments/", env.build || "development",".ts"].join(""),
+        "src/environments/environment.ts": ["src/environments/", env.build || "development",".ts"].join("")
       },
       "exclude": [],
       "tsConfigPath": "src/tsconfig.app.json",
       "skipCodeGeneration": true
     })
   ],
+  
   "node": {
     "fs": "empty",
     "global": true,
@@ -126,4 +135,5 @@ module.exports = {
     "clearImmediate": false,
     "setImmediate": false
   }
-};
+
+}};

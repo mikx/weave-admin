@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
@@ -7,9 +7,9 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ApiService {
   
-  constructor(private http: Http) {}
+  constructor(@Inject('CONFIG') private config: any, private http: Http) {}
   
-  private base = 'http://dev.async.weave.io';
+  private base = this.config.base;
   
   getPromise(path: string): Promise<any> {
     return new Promise((resolve) => {
