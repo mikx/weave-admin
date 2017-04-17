@@ -1,4 +1,7 @@
+/*eslint-env node, shelljs*/
+
 const path = require('path');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
 const ProgressPlugin = require('webpack/lib/ProgressPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -104,7 +107,8 @@ module.exports = {
     new AotPlugin({
       "mainPath": "main.ts",
       "hostReplacementPaths": {
-        "environments/environment.ts": "environments/environment.ts"
+        "environments/environment.ts": ["environments/", process.env.NODE_ENV || "development",".ts"].join(""),
+        "src/environments/environment.ts": ["src/environments/", process.env.NODE_ENV || "development",".ts"].join("")
       },
       "exclude": [],
       "tsConfigPath": "src/tsconfig.app.json",

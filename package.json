@@ -5,6 +5,7 @@
   "scripts": {
     "compile": "tsc --noEmit", 
     "build":   "webpack --progress --display-error-details",
+    "build-prod": "NODE_ENV='production' webpack",
     "watch":   "npm run build -- --watch",
     "server":  "webpack-dev-server --no-inline --progress --host 0.0.0.0 --port 8000 --content-base src",
     "start":   "npm run server"

@@ -1,4 +1,5 @@
-/*eslint-env es_modules */
+/*globals environment */
+/*eslint-env es_modules, browser*/
 
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
@@ -24,6 +25,9 @@ import { RepoListComponent } from './github/repo-list/repo-list.component';
 import { RepoDetailComponent } from './github/repo-detail/repo-detail.component';
 import { OrgComponent } from './org/org.component';
 
+import { environment } from '../environments/environment';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,9 +50,13 @@ import { OrgComponent } from './org/org.component';
   providers: [
     ApiService,
     GithubService,
-    { provide: Http, useClass: ExtendedHttpService }
+    {provide: Http, useClass: ExtendedHttpService },
+    {provide: 'CONFIG', useValue: environment }
   ],
   bootstrap: [ AppComponent ]
 })
 
-export class AppModule { }
+  
+export class AppModule {
+
+}
